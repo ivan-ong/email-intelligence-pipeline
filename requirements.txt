@@ -1,0 +1,7 @@
+google-generativeai
+google-cloud-bigquery
+fastapi
+uvicorn
+pydantic
+pytest
+python-dotenv

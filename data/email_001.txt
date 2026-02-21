@@ -1,0 +1,8 @@
+From: john.smith@acmecorp.com
+Subject: Invoice #4521 for October Services
+
+Hi team, please find attached our invoice for October consulting services.
+Total amount due: $4,500. Payment terms are net 30.
+
+Best,
+John Smith, Acme Corp
