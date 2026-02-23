@@ -10,7 +10,7 @@ Raw Emails → Ingestion → Gemini Extraction → BigQuery → FastAPI
 ## Tech Stack
 
 - **Python 3.12**
-- **Google Gemini 2.0 Flash** — LLM extraction via prompt engineering
+- **Google Gemini 2.5 Flash** — LLM extraction via prompt engineering
 - **Google BigQuery** — Cloud data warehouse
 - **FastAPI** — REST API layer
 - **Pydantic** — Data validation
