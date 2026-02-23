@@ -20,8 +20,10 @@ def test_get_email_by_invalid_id_returns_404():
     mock_result = MagicMock()
     mock_result.__iter__ = MagicMock(return_value=iter([]))
 
-    with patch("api.main.client") as mock_client:
-        mock_client.query.return_value.result.return_value = mock_result
+    mock_bq = MagicMock()
+    mock_bq.query.return_value.result.return_value = mock_result
+
+    with patch("api.main.get_client", return_value=mock_bq):
         response = client.get("/emails/nonexistent-id-123")
         assert response.status_code == 404
 
@@ -40,8 +42,10 @@ def test_get_emails_returns_list():
     mock_result = MagicMock()
     mock_result.__iter__ = MagicMock(return_value=iter([mock_row]))
 
-    with patch("api.main.client") as mock_client:
-        mock_client.query.return_value.result.return_value = mock_result
+    mock_bq = MagicMock()
+    mock_bq.query.return_value.result.return_value = mock_result
+
+    with patch("api.main.get_client", return_value=mock_bq):
         response = client.get("/emails")
         assert response.status_code == 200
         assert response.json()["count"] == 1

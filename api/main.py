@@ -12,10 +12,13 @@ app = FastAPI(
     version="1.0.0"
 )
 
-client = bigquery.Client.from_service_account_json("gcp-credentials.json")
-
-PROJECT_ID = "maximal-arcade-488308-k6"
+PROJECT_ID = "maximal-arcade-488308-k6d"
 FULL_TABLE_ID = f"{PROJECT_ID}.email_pipeline.extracted_emails"
+
+
+def get_client():
+    """Create BigQuery client lazily so tests can mock it without needing credentials."""
+    return bigquery.Client.from_service_account_json("gcp-credentials.json")
 
 
 @app.get("/")
@@ -25,16 +28,14 @@ def health_check():
 
 @app.get("/emails")
 def get_emails(
-    intent: Optional[str] = Query(None, description="Filter by intent: invoice, complaint, inquiry, meeting_request, other"),
-    limit: int = Query(10, description="Number of results to return", ge=1, le=100)
+    intent: Optional[str] = Query(None),
+    limit: int = Query(10, ge=1, le=100)
 ):
-    where_clause = ""
-    if intent:
-        allowed = {"invoice", "complaint", "inquiry", "meeting_request", "other"}
-        if intent not in allowed:
-            raise HTTPException(status_code=400, detail=f"Invalid intent. Must be one of: {allowed}")
-        where_clause = f"WHERE intent = '{intent}'"
+    allowed = {"invoice", "complaint", "inquiry", "meeting_request", "other"}
+    if intent and intent not in allowed:
+        raise HTTPException(status_code=400, detail=f"Invalid intent. Must be one of: {allowed}")
 
+    where_clause = f"WHERE intent = '{intent}'" if intent else ""
     query = f"""
         SELECT *
         FROM `{FULL_TABLE_ID}`
@@ -43,6 +44,7 @@ def get_emails(
         LIMIT {limit}
     """
 
+    client = get_client()
     results = client.query(query).result()
     emails = []
     for row in results:
@@ -69,6 +71,7 @@ def get_email_by_id(email_id: str):
         LIMIT 1
     """
 
+    client = get_client()
     results = client.query(query).result()
     for row in results:
         return {
