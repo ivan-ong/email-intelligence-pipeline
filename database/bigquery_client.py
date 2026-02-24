@@ -12,7 +12,9 @@ DATASET_ID = "email_pipeline"
 TABLE_ID = "extracted_emails"
 FULL_TABLE_ID = f"{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}"
 
-client = bigquery.Client.from_service_account_json("gcp-credentials.json")
+def get_client():
+    return bigquery.Client.from_service_account_json("gcp-credentials.json")
+
 
 def generate_email_id(content: str) -> str:
     """Create a unique reproducible ID from email content."""
@@ -33,7 +35,7 @@ def insert_email(filename: str, raw_content: str, extraction: EmailExtraction) -
         "processed_at": datetime.now(timezone.utc).isoformat()
     }
 
-    errors = client.insert_rows_json(FULL_TABLE_ID, [row])
+    errors = get_client().insert_rows_json(FULL_TABLE_ID, [row])
 
     if errors:
         print(f"BigQuery insert errors: {errors}")
@@ -51,7 +53,7 @@ def email_already_processed(raw_content: str) -> bool:
         FROM `{FULL_TABLE_ID}`
         WHERE email_id = '{email_id}'
     """
-    result = client.query(query).result()
+    result = get_client().query(query).result()
     for row in result:
         return row.count > 0
     return False

@@ -50,6 +50,3 @@ GCP_PROJECT_ID=maximal-arcade-488308-k6
 
 `GCP_PROJECT_ID` defaults to `maximal-arcade-488308-k6` if not set.
 
-## Known Issues
-
-- `database/bigquery_client.py` initializes the BigQuery client at module import time, making it harder to mock compared to the `get_client()` pattern used in `api/main.py`.
