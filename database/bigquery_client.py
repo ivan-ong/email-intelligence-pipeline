@@ -7,7 +7,7 @@ from extraction.extractor import EmailExtraction
 
 load_dotenv()
 
-PROJECT_ID = "maximal-arcade-488308-k6"
+PROJECT_ID = os.environ.get("GCP_PROJECT_ID", "maximal-arcade-488308-k6")
 DATASET_ID = "email_pipeline"
 TABLE_ID = "extracted_emails"
 FULL_TABLE_ID = f"{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}"

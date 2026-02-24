@@ -12,7 +12,7 @@ app = FastAPI(
     version="1.0.0"
 )
 
-PROJECT_ID = "maximal-arcade-488308-k6d"
+PROJECT_ID = os.environ.get("GCP_PROJECT_ID", "maximal-arcade-488308-k6")
 FULL_TABLE_ID = f"{PROJECT_ID}.email_pipeline.extracted_emails"
 
 
