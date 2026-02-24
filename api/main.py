@@ -51,7 +51,7 @@ def get_emails(
         {where_clause}
         ORDER BY processed_at DESC
         LIMIT @limit
-    """
+    """  # nosec B608 — only FULL_TABLE_ID (a constant) is interpolated; user input is parameterized
     params = [bigquery.ScalarQueryParameter("limit", "INT64", limit)]
     if intent:
         params.append(bigquery.ScalarQueryParameter("intent", "STRING", intent))
@@ -84,7 +84,7 @@ def get_email_by_id(email_id: str):
         FROM `{FULL_TABLE_ID}`
         WHERE email_id = @email_id
         LIMIT 1
-    """
+    """  # nosec B608 — only FULL_TABLE_ID (a constant) is interpolated; user input is parameterized
     job_config = bigquery.QueryJobConfig(
         query_parameters=[bigquery.ScalarQueryParameter("email_id", "STRING", email_id)]
     )

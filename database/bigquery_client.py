@@ -22,7 +22,9 @@ def get_client():
 
 def generate_email_id(content: str) -> str:
     """Create a unique reproducible ID from email content."""
-    return hashlib.md5(content.encode()).hexdigest()
+    return hashlib.md5(
+        content.encode(), usedforsecurity=False
+    ).hexdigest()  # nosec B324
 
 
 def insert_email(filename: str, raw_content: str, extraction: EmailExtraction) -> bool:
@@ -56,7 +58,7 @@ def email_already_processed(raw_content: str) -> bool:
         SELECT COUNT(*) as count
         FROM `{FULL_TABLE_ID}`
         WHERE email_id = @email_id
-    """
+    """  # nosec B608 — only FULL_TABLE_ID (a constant) is interpolated; user input is parameterized
     job_config = bigquery.QueryJobConfig(
         query_parameters=[bigquery.ScalarQueryParameter("email_id", "STRING", email_id)]
     )
