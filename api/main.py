@@ -1,3 +1,4 @@
+import logging
 import os
 from fastapi import FastAPI, HTTPException, Query
 from google.cloud import bigquery
@@ -5,6 +6,8 @@ from dotenv import load_dotenv
 from typing import Optional
 
 load_dotenv()
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="Email Intelligence API",
@@ -18,12 +21,17 @@ FULL_TABLE_ID = f"{PROJECT_ID}.email_pipeline.extracted_emails"
 
 def get_client():
     """Create BigQuery client lazily so tests can mock it without needing credentials."""
-    return bigquery.Client.from_service_account_json("gcp-credentials.json")
+    return bigquery.Client()
 
 
 @app.get("/")
 def health_check():
-    return {"status": "ok", "message": "Email Intelligence API is running"}
+    try:
+        get_client().query("SELECT 1").result()
+        return {"status": "ok", "message": "Email Intelligence API is running"}
+    except Exception as e:
+        logger.error("Health check failed: %s", e)
+        raise HTTPException(status_code=503, detail="Database unavailable")
 
 
 @app.get("/emails")
@@ -35,17 +43,21 @@ def get_emails(
     if intent and intent not in allowed:
         raise HTTPException(status_code=400, detail=f"Invalid intent. Must be one of: {allowed}")
 
-    where_clause = f"WHERE intent = '{intent}'" if intent else ""
+    where_clause = "WHERE intent = @intent" if intent else ""
     query = f"""
         SELECT *
         FROM `{FULL_TABLE_ID}`
         {where_clause}
         ORDER BY processed_at DESC
-        LIMIT {limit}
+        LIMIT @limit
     """
+    params = [bigquery.ScalarQueryParameter("limit", "INT64", limit)]
+    if intent:
+        params.append(bigquery.ScalarQueryParameter("intent", "STRING", intent))
+    job_config = bigquery.QueryJobConfig(query_parameters=params)
 
     client = get_client()
-    results = client.query(query).result()
+    results = client.query(query, job_config=job_config).result()
     emails = []
     for row in results:
         emails.append({
@@ -67,12 +79,15 @@ def get_email_by_id(email_id: str):
     query = f"""
         SELECT *
         FROM `{FULL_TABLE_ID}`
-        WHERE email_id = '{email_id}'
+        WHERE email_id = @email_id
         LIMIT 1
     """
+    job_config = bigquery.QueryJobConfig(
+        query_parameters=[bigquery.ScalarQueryParameter("email_id", "STRING", email_id)]
+    )
 
     client = get_client()
-    results = client.query(query).result()
+    results = client.query(query, job_config=job_config).result()
     for row in results:
         return {
             "email_id": row.email_id,

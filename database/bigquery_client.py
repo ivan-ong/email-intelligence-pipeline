@@ -1,3 +1,4 @@
+import logging
 import os
 import hashlib
 from datetime import datetime, timezone
@@ -7,13 +8,15 @@ from extraction.extractor import EmailExtraction
 
 load_dotenv()
 
+logger = logging.getLogger(__name__)
+
 PROJECT_ID = os.environ.get("GCP_PROJECT_ID", "maximal-arcade-488308-k6")
 DATASET_ID = "email_pipeline"
 TABLE_ID = "extracted_emails"
 FULL_TABLE_ID = f"{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}"
 
 def get_client():
-    return bigquery.Client.from_service_account_json("gcp-credentials.json")
+    return bigquery.Client()
 
 
 def generate_email_id(content: str) -> str:
@@ -38,10 +41,10 @@ def insert_email(filename: str, raw_content: str, extraction: EmailExtraction) -
     errors = get_client().insert_rows_json(FULL_TABLE_ID, [row])
 
     if errors:
-        print(f"BigQuery insert errors: {errors}")
+        logger.error("BigQuery insert errors: %s", errors)
         return False
 
-    print(f"Inserted: {email_id} ({filename})")
+    logger.info("Inserted: %s (%s)", email_id, filename)
     return True
 
 
@@ -51,9 +54,12 @@ def email_already_processed(raw_content: str) -> bool:
     query = f"""
         SELECT COUNT(*) as count
         FROM `{FULL_TABLE_ID}`
-        WHERE email_id = '{email_id}'
+        WHERE email_id = @email_id
     """
-    result = get_client().query(query).result()
+    job_config = bigquery.QueryJobConfig(
+        query_parameters=[bigquery.ScalarQueryParameter("email_id", "STRING", email_id)]
+    )
+    result = get_client().query(query, job_config=job_config).result()
     for row in result:
         return row.count > 0
     return False

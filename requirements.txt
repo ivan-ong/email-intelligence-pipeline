@@ -1,8 +1,8 @@
-google-genai
-google-cloud-bigquery
-fastapi
-uvicorn
-httpx
-pydantic
-pytest
-python-dotenv
+google-genai==1.64.0
+google-cloud-bigquery==3.40.1
+fastapi==0.129.0
+uvicorn==0.41.0
+httpx==0.28.1
+pydantic==2.12.5
+pytest==9.0.2
+python-dotenv==1.2.1

@@ -1,6 +1,10 @@
+import logging
 from pathlib import Path
 from extraction.extractor import extract_from_email
 from database.bigquery_client import insert_email, email_already_processed
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+logger = logging.getLogger(__name__)
 
 DATA_DIR = Path("data")
 
@@ -13,21 +17,21 @@ def load_emails():
 
 if __name__ == "__main__":
     emails = load_emails()
-    print(f"Processing {len(emails)} emails...\n")
+    logger.info("Processing %d emails...", len(emails))
 
     for email in emails:
         filename = email["filename"]
         content = email["content"]
 
         if email_already_processed(content):
-            print(f"Skipping {filename} — already in database")
+            logger.info("Skipping %s — already in database", filename)
             continue
 
-        print(f"Processing {filename}...")
+        logger.info("Processing %s...", filename)
         try:
             extraction = extract_from_email(content)
             insert_email(filename, content, extraction)
         except Exception as e:
-            print(f"ERROR processing {filename}: {e}")
+            logger.error("ERROR processing %s: %s", filename, e)
 
-    print("\nDone.")
+    logger.info("Done.")

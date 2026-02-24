@@ -20,7 +20,13 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r requirements.txt black bandit
+
+      - name: Check formatting
+        run: black --check .
+
+      - name: Security scan
+        run: bandit -r . -ll --exclude ./venv
 
       - name: Run tests
         env:
