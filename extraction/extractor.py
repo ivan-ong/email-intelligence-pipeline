@@ -48,10 +48,7 @@ Email:
 def extract_from_email(email_text: str) -> EmailExtraction:
     prompt = PROMPT_TEMPLATE.format(email_text=email_text)
 
-    response = client.models.generate_content(
-        model="gemini-2.5-flash",
-        contents=prompt
-    )
+    response = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
     raw_text = response.text.strip()
 
     # Strip markdown code blocks if Gemini wraps the response

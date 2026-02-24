@@ -8,12 +8,14 @@ logger = logging.getLogger(__name__)
 
 DATA_DIR = Path("data")
 
+
 def load_emails():
     emails = []
     for file in sorted(DATA_DIR.glob("*.txt")):
         content = file.read_text()
         emails.append({"filename": file.name, "content": content})
     return emails
+
 
 if __name__ == "__main__":
     emails = load_emails()

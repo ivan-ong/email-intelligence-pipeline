@@ -15,6 +15,7 @@ DATASET_ID = "email_pipeline"
 TABLE_ID = "extracted_emails"
 FULL_TABLE_ID = f"{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}"
 
+
 def get_client():
     return bigquery.Client()
 
@@ -35,7 +36,7 @@ def insert_email(filename: str, raw_content: str, extraction: EmailExtraction) -
         "intent": extraction.intent,
         "key_entities": extraction.key_entities,
         "summary": extraction.summary,
-        "processed_at": datetime.now(timezone.utc).isoformat()
+        "processed_at": datetime.now(timezone.utc).isoformat(),
     }
 
     errors = get_client().insert_rows_json(FULL_TABLE_ID, [row])

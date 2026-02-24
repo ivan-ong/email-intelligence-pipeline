@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI(
     title="Email Intelligence API",
     description="Query structured data extracted from emails",
-    version="1.0.0"
+    version="1.0.0",
 )
 
 PROJECT_ID = os.environ.get("GCP_PROJECT_ID", "maximal-arcade-488308-k6")
@@ -36,12 +36,13 @@ def health_check():
 
 @app.get("/emails")
 def get_emails(
-    intent: Optional[str] = Query(None),
-    limit: int = Query(10, ge=1, le=100)
+    intent: Optional[str] = Query(None), limit: int = Query(10, ge=1, le=100)
 ):
     allowed = {"invoice", "complaint", "inquiry", "meeting_request", "other"}
     if intent and intent not in allowed:
-        raise HTTPException(status_code=400, detail=f"Invalid intent. Must be one of: {allowed}")
+        raise HTTPException(
+            status_code=400, detail=f"Invalid intent. Must be one of: {allowed}"
+        )
 
     where_clause = "WHERE intent = @intent" if intent else ""
     query = f"""
@@ -60,16 +61,18 @@ def get_emails(
     results = client.query(query, job_config=job_config).result()
     emails = []
     for row in results:
-        emails.append({
-            "email_id": row.email_id,
-            "filename": row.filename,
-            "sender_name": row.sender_name,
-            "sender_email": row.sender_email,
-            "intent": row.intent,
-            "key_entities": list(row.key_entities),
-            "summary": row.summary,
-            "processed_at": row.processed_at.isoformat()
-        })
+        emails.append(
+            {
+                "email_id": row.email_id,
+                "filename": row.filename,
+                "sender_name": row.sender_name,
+                "sender_email": row.sender_email,
+                "intent": row.intent,
+                "key_entities": list(row.key_entities),
+                "summary": row.summary,
+                "processed_at": row.processed_at.isoformat(),
+            }
+        )
 
     return {"count": len(emails), "emails": emails}
 
@@ -97,7 +100,7 @@ def get_email_by_id(email_id: str):
             "intent": row.intent,
             "key_entities": list(row.key_entities),
             "summary": row.summary,
-            "processed_at": row.processed_at.isoformat()
+            "processed_at": row.processed_at.isoformat(),
         }
 
     raise HTTPException(status_code=404, detail=f"Email with id '{email_id}' not found")

@@ -1,5 +1,9 @@
 from unittest.mock import MagicMock, patch
-from database.bigquery_client import generate_email_id, insert_email, email_already_processed
+from database.bigquery_client import (
+    generate_email_id,
+    insert_email,
+    email_already_processed,
+)
 from extraction.extractor import EmailExtraction
 
 
