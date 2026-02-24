@@ -2,6 +2,7 @@ import pytest
 from extraction.extractor import EmailExtraction
 
 def test_valid_extraction():
+    # Confirm a fully-populated extraction is accepted and fields are set correctly
     data = {
         "sender_name": "John Smith",
         "sender_email": "john@acme.com",
@@ -14,6 +15,7 @@ def test_valid_extraction():
     assert result.sender_email == "john@acme.com"
 
 def test_invalid_intent_raises_error():
+    # Intent must be one of the allowed values; Pydantic should reject anything else
     data = {
         "sender_name": "John",
         "sender_email": "john@acme.com",
@@ -25,6 +27,7 @@ def test_invalid_intent_raises_error():
         EmailExtraction(**data)
 
 def test_missing_optional_fields():
+    # sender_name and sender_email are optional and should default to None
     data = {
         "intent": "other",
         "summary": "An email with no sender info."

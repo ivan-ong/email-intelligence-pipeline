@@ -6,17 +6,20 @@ client = TestClient(app)
 
 
 def test_health_check():
+    # Verify the root endpoint returns a 200 with the expected status field
     response = client.get("/")
     assert response.status_code == 200
     assert response.json()["status"] == "ok"
 
 
 def test_get_emails_filter_by_invalid_intent():
+    # Intent values are restricted to the allowed set; anything else should return 400
     response = client.get("/emails?intent=nonsense")
     assert response.status_code == 400
 
 
 def test_get_email_by_invalid_id_returns_404():
+    # Mock BigQuery to return an empty result set, simulating a missing email ID
     mock_result = MagicMock()
     mock_result.__iter__ = MagicMock(return_value=iter([]))
 
@@ -29,6 +32,7 @@ def test_get_email_by_invalid_id_returns_404():
 
 
 def test_get_emails_returns_list():
+    # Build a fake BigQuery row with all fields the API reads
     mock_row = MagicMock()
     mock_row.email_id = "abc123"
     mock_row.filename = "email_001.txt"
@@ -39,12 +43,15 @@ def test_get_emails_returns_list():
     mock_row.summary = "Invoice for October services."
     mock_row.processed_at.isoformat.return_value = "2024-01-01T00:00:00"
 
+    # Wrap the row in a fake result set that yields it when iterated
     mock_result = MagicMock()
     mock_result.__iter__ = MagicMock(return_value=iter([mock_row]))
 
+    # Wire the fake result set into a mock BigQuery client
     mock_bq = MagicMock()
     mock_bq.query.return_value.result.return_value = mock_result
 
+    # Patch get_client() so the endpoint uses the mock instead of real GCP credentials
     with patch("api.main.get_client", return_value=mock_bq):
         response = client.get("/emails")
         assert response.status_code == 200
