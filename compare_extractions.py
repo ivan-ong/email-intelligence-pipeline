@@ -82,7 +82,10 @@ def compare(api_url: str, limit: int):
         # --- Sender ---
         print_field("sender_name", old["sender_name"], new["sender_name"])
         print_field("sender_email", old["sender_email"], new["sender_email"])
-        if old["sender_name"] != new["sender_name"] or old["sender_email"] != new["sender_email"]:
+        if (
+            old["sender_name"] != new["sender_name"]
+            or old["sender_email"] != new["sender_email"]
+        ):
             any_change = True
 
         # --- Entities ---
@@ -93,7 +96,11 @@ def compare(api_url: str, limit: int):
         count_label = f"entities"
         count_pad = " " * (14 - len(count_label))
         count_str = f"{len(old_ents)} → {len(new_ents)}"
-        color = GREEN if len(new_ents) < len(old_ents) else (RED if len(new_ents) > len(old_ents) else DIM)
+        color = (
+            GREEN
+            if len(new_ents) < len(old_ents)
+            else (RED if len(new_ents) > len(old_ents) else DIM)
+        )
         print(f"  {DIM}{count_label}{count_pad}{RESET}{color}{count_str}{RESET}")
         if added:
             print(f"  {GREEN}  + {', '.join(added)}{RESET}")
@@ -133,7 +140,11 @@ def compare(api_url: str, limit: int):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Compare stored vs fresh extractions.")
-    parser.add_argument("--api-url", default="http://localhost:8000", help="Base URL of the running API")
-    parser.add_argument("--limit", type=int, default=100, help="Max emails to fetch from API")
+    parser.add_argument(
+        "--api-url", default="http://localhost:8000", help="Base URL of the running API"
+    )
+    parser.add_argument(
+        "--limit", type=int, default=100, help="Max emails to fetch from API"
+    )
     args = parser.parse_args()
     compare(args.api_url, args.limit)
