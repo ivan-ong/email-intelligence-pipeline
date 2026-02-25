@@ -95,3 +95,21 @@ python compare_extractions.py
 - **Lazy BigQuery client** — both `database/` and `api/` use a `get_client()` factory so tests can mock credentials
 - **Prompt sanitisation** — handles markdown code blocks that Gemini occasionally wraps around JSON responses
 - **Mocked tests** — API and database tests mock BigQuery so CI runs without cloud credentials
+
+## Future Enhancements
+
+### Quantitative Prompt Evaluation
+
+`compare_extractions.py` currently shows a visual diff but produces no score. A planned improvement is a golden dataset + scoring mode:
+
+1. **Generate a baseline** — run the current prompt on all emails and save outputs to `data/golden.json`
+2. **Score against baseline** — after changing `PROMPT_TEMPLATE`, re-run scoring to measure how much output changed and in which direction
+
+Proposed metrics per field:
+- `intent` — exact match accuracy (0 or 1)
+- `sender_name` / `sender_email` — exact match
+- `key_entities` — F1 score (precision + recall over sets, giving partial credit)
+- `summary` — character similarity via `difflib.SequenceMatcher`
+- `overall` — weighted average (intent weighted highest at 0.30)
+
+A higher score means the new prompt produces output closer to the baseline. A drop in a specific field pinpoints exactly what regressed.
