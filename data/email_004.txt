@@ -1,0 +1,37 @@
+From: procurement@globaltech.io
+To: billing@vendorsupply.com
+CC: finance@globaltech.io, legal@globaltech.io
+Subject: RE: Invoice #INV-2024-0892 — Disputed Line Items (URGENT)
+
+Hi Marcus,
+
+Further to our call on Tuesday, I'm writing to formally dispute three line items
+on Invoice #INV-2024-0892 dated 14 November 2024, totalling $12,340.00 of the
+overall $47,890.00 billed.
+
+The disputed items are as follows:
+
+  1. "Infrastructure Setup Fee" — $8,000.00
+     Per our MSA (Section 4.2, signed 03 Jan 2024), setup fees are waived for
+     contracts exceeding 12 months. Our contract runs until 31 Dec 2025.
+
+  2. "On-site Support Hours (Oct)" — $2,840.00
+     We have no record of approving on-site visits in October. Our ticketing
+     system (tickets #TK-4421, #TK-4422) shows all support was delivered
+     remotely. Please provide the signed visit authorisation forms.
+
+  3. "Software Licence Overage — Q3" — $1,500.00
+     Our licence covers up to 200 seats. Your usage report attached to the
+     invoice shows a peak of 197 seats. No overage applies.
+
+We are prepared to release the undisputed amount of $35,550.00 immediately
+upon receipt of a revised invoice. The remaining $12,340.00 will be withheld
+pending resolution.
+
+Please respond by 29 November 2024 or we will escalate to our legal team per
+clause 11.3 of the MSA.
+
+Regards,
+Priya Nair
+Head of Procurement, GlobalTech Solutions
++1 (415) 882-3301

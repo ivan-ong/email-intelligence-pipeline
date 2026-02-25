@@ -1,0 +1,34 @@
+From: noreply@helpdesk.retailchain.com
+To: vendor-relations@supplierco.com
+Subject: [Case #CS-98231] Escalation — Repeated Fulfilment Failures & Chargeback Notice
+
+This is an automated notification from RetailChain Helpdesk.
+A customer complaint has been escalated to vendor-relations level.
+
+--- ORIGINAL COMPLAINT (submitted by store manager, Branch #047, Austin TX) ---
+
+We have now received three consecutive shipments from SupplierCo (PO #77821,
+#77956, #78103) that were either short-shipped or contained incorrect SKUs.
+Details:
+
+  PO #77821 (shipped 01 Oct):  Ordered 240 units SKU-3382-B, received 190 units
+  PO #77956 (shipped 15 Oct):  Ordered 120 units SKU-9901-A, received SKU-9901-C
+                                (wrong variant, incompatible with our planogram)
+  PO #78103 (shipped 29 Oct):  Arrived 11 days late; 40 units arrived damaged
+                                (photos attached, claim ref DMG-2024-1029)
+
+Combined value of affected goods: $14,220.00
+
+We have processed chargebacks for PO #77821 and PO #77956 per our vendor
+agreement (Section 9, Fulfilment SLA). PO #78103 damage claim is pending
+your insurance carrier's response.
+
+Until fulfilment accuracy reaches 98%+ over a rolling 60-day window, Branch
+#047 is suspending new purchase orders with SupplierCo effective immediately.
+
+--- END COMPLAINT ---
+
+Action required from vendor within 5 business days. Failure to respond will
+result in automatic suspension of vendor account #V-40293.
+
+RetailChain Vendor Relations Team

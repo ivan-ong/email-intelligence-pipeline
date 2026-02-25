@@ -1,0 +1,36 @@
+From: accounts.receivable@brightstructures.com
+To: finance@urbandev.co
+Subject: Final Notice — Overdue Invoices #BS-1104, #BS-1201, #BS-1298 — Total $231,400.00
+
+Dear Mr. Fernandez,
+
+This is our fourth and final written notice regarding the following outstanding
+invoices on your account (Client ID: UD-0088):
+
+  Invoice #BS-1104  |  Issued: 12 Aug 2024  |  Due: 11 Sep 2024  |  $78,500.00
+  Invoice #BS-1201  |  Issued: 03 Sep 2024  |  Due: 03 Oct 2024  |  $94,200.00
+  Invoice #BS-1298  |  Issued: 01 Oct 2024  |  Due: 31 Oct 2024  |  $58,700.00
+
+  TOTAL OUTSTANDING: $231,400.00
+  Late payment interest accrued (per contract clause 8.1 @ 1.5%/month):
+    #BS-1104: $3,532.50 (2.5 months)
+    #BS-1201: $2,826.00 (2 months)
+  TOTAL NOW DUE: $237,758.50
+
+We note that your project manager, Ms. Huang, contacted us on 4 November
+indicating a "cash flow delay" and requesting a 60-day extension. Our
+management has reviewed this request and is prepared to offer a one-time
+structured payment arrangement:
+
+  Option A: Full payment of $237,758.50 by 29 November 2024 — interest waived
+  Option B: 50% ($118,879.25) by 29 Nov, remainder by 31 Jan 2025 — interest
+             capped at current accrual, no further charges if both met on time
+  Option C: Refer to collections & suspend all active project work immediately
+
+Please confirm your chosen option in writing by 22 November 2024. Failure to
+respond will result in Option C being enacted automatically.
+
+Regards,
+Accounts Receivable Team
+Bright Structures Ltd
+Tel: +44 20 7946 0823

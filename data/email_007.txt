@@ -1,0 +1,47 @@
+From: elena.vasquez@healthbridge.org
+To: enterprise-sales@medtechsolutions.com
+Subject: Fwd: RE: RE: EHR Integration Proposal — HealthBridge Community Clinics
+
+-- Forwarded message --
+From: Board Chair <board@healthbridge.org>
+To: elena.vasquez@healthbridge.org
+Date: Mon, 18 Nov 2024 09:14:22 -0500
+
+Elena — board reviewed the MedTech proposal Friday. We're cautiously
+supportive but need clearer answers on HIPAA BAA before we can sign off.
+Can you go back to them with the questions below? We need responses before
+the Dec board meeting.
+-- End forwarded message --
+
+Hi Daniel,
+
+Following up on our proposal discussion — the HealthBridge board met Friday
+and is moving forward conditionally. They have asked me to get clarity on
+several points before December 9th:
+
+  1. BAA & Compliance
+     - Will MedTech Solutions execute a Business Associate Agreement prior to
+       any data migration or pilot access?
+     - Which subprocessors will have access to PHI, and are they listed in
+       your current BAA schedule?
+
+  2. Data Migration
+     - Our current EHR holds approximately 74,000 patient records going back
+       to 2009. What is your estimated migration timeline and do you offer a
+       parallel-run period?
+
+  3. Pricing Clarification
+     - The proposal lists a "per-provider per-month" fee of $310, but our
+       clinic network includes 12 part-time providers (under 20 hrs/week).
+       Do part-time providers count as full seats?
+
+  4. SLA & Uptime
+     - Our rural locations have intermittent connectivity. Does your platform
+       support offline mode with sync-on-reconnect?
+
+We have a tight board approval window. If we can get written responses by
+December 5th, we can aim for a January 2025 contract execution.
+
+Best,
+Elena Vasquez
+Director of Operations, HealthBridge Community Clinics

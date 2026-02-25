@@ -1,0 +1,40 @@
+From: t.nakamura@apac-logistics.jp
+To: ops@freightpartner.com
+CC: customs@apac-logistics.jp, compliance@apac-logistics.jp
+Subject: Inquiry — Customs Hold on Shipment #APL-SH-20241117 & Regulatory Docs
+
+Hi Team,
+
+Our shipment #APL-SH-20241117 (departure Osaka 17 Nov, destination Los Angeles,
+vessel MV Pacific Star, container MSCU7823441) has been flagged by US Customs
+and Border Protection and is currently on hold at the Port of Los Angeles.
+
+CBP has issued a Request for Information citing the following:
+
+  a) Lacey Act compliance documentation for wooden pallet materials
+     (we use heat-treated pallets — ISPM-15 stamped — but CBP is requesting
+     the original phytosanitary certificates from the Japanese Ministry of
+     Agriculture)
+
+  b) Clarification on HS Code classification for item category 3 (electronic
+     sub-assemblies) — CBP suggests HS 8542.39 vs our declared 8473.30.
+     The difference carries a 7.5% vs 0% duty rate on the affected $340,000
+     in goods.
+
+  c) A missing Certificate of Conformity for two SKUs (JP-E-7721 and JP-E-7722)
+     under FCC Part 15
+
+Could you please advise:
+
+  1. What is the typical timeline for CBP holds of this nature?
+  2. Can you file the CBP Form 28 response on our behalf, or do we need our
+     own licensed customs broker for the HS code dispute?
+  3. Is there a risk of seizure if documentation is not received within 5 days?
+
+The cargo value is approximately $1.2M USD. Demurrage charges are accruing at
+$850/day. We need to resolve this urgently.
+
+Regards,
+Takeshi Nakamura
+VP Operations, APAC Logistics KK
++81 6 6123 4567
