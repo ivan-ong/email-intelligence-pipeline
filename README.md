@@ -4,7 +4,7 @@ An end-to-end data pipeline that extracts structured information from raw emails
 
 ## Architecture
 ```
-Raw Emails → Ingestion → Gemini Extraction → BigQuery → FastAPI
+Raw Emails → Gemini Extraction → BigQuery → FastAPI
 ```
 
 ## Tech Stack
@@ -15,19 +15,19 @@ Raw Emails → Ingestion → Gemini Extraction → BigQuery → FastAPI
 - **FastAPI** — REST API layer
 - **Pydantic** — Data validation
 - **Pytest** — Testing
-- **GitHub Actions** — CI/CD
+- **GitHub Actions** — CI/CD (formatting, security scan, tests)
 
 ## Project Structure
 ```
 email-intelligence-pipeline/
-├── ingestion/        # Email file loader
-├── extraction/       # Gemini prompt + data validation
-├── database/         # BigQuery client
-├── api/              # FastAPI endpoints
-├── tests/            # Unit tests
-├── data/             # Sample emails
-├── main.py           # Pipeline orchestrator
-└── .github/workflows # CI pipeline
+├── extraction/           # Gemini prompt + Pydantic validation
+├── database/             # BigQuery client
+├── api/                  # FastAPI endpoints
+├── tests/                # Unit tests
+├── data/                 # Sample emails
+├── main.py               # Pipeline orchestrator
+├── compare_extractions.py # Prompt evaluation tool
+└── .github/workflows/    # CI pipeline
 ```
 
 ## Setup
@@ -35,17 +35,18 @@ email-intelligence-pipeline/
 1. Clone the repo
 2. Create and activate a virtual environment:
 ```bash
-   python3 -m venv venv
-   source venv/bin/activate
+python3 -m venv venv
+source venv/bin/activate
 ```
 3. Install dependencies:
 ```bash
-   pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 4. Create a `.env` file:
 ```
-   GEMINI_API_KEY=your_key_here
-   GOOGLE_APPLICATION_CREDENTIALS=gcp-credentials.json
+GEMINI_API_KEY=your_key_here
+GOOGLE_APPLICATION_CREDENTIALS=gcp-credentials.json
+GCP_PROJECT_ID=maximal-arcade-488308-k6
 ```
 5. Add your GCP service account credentials as `gcp-credentials.json`
 
@@ -66,18 +67,31 @@ API docs available at `http://127.0.0.1:8000/docs`
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/` | Health check |
-| GET | `/emails` | List all extracted emails |
-| GET | `/emails?intent=invoice` | Filter by intent |
-| GET | `/emails/{email_id}` | Get a specific email |
+| GET | `/emails` | List extracted emails (optional `?intent=` filter, `?limit=`) |
+| GET | `/emails/{email_id}` | Get a specific email by ID |
 
 ## Running Tests
 ```bash
 pytest tests/ -v
 ```
 
+## Prompt Evaluation
+
+`compare_extractions.py` diffs stored BigQuery extractions against a fresh re-extraction using the current prompt. Use it after modifying `PROMPT_TEMPLATE` in `extraction/extractor.py` to see what changed.
+
+Requires the API server to be running first:
+```bash
+# Terminal 1
+python -m uvicorn api.main:app --reload
+
+# Terminal 2
+python compare_extractions.py
+```
+
 ## Key Design Decisions
 
-- **Idempotent inserts** — emails are hashed to prevent duplicate rows in BigQuery
+- **Idempotent inserts** — emails are MD5-hashed to prevent duplicate rows in BigQuery
 - **Pydantic validation** — LLM output is validated before hitting the database
-- **Prompt sanitization** — handles markdown code blocks that Gemini occasionally wraps around JSON responses
-- **Mocked tests** — API tests mock BigQuery so CI runs without cloud credentials
+- **Lazy BigQuery client** — both `database/` and `api/` use a `get_client()` factory so tests can mock credentials
+- **Prompt sanitisation** — handles markdown code blocks that Gemini occasionally wraps around JSON responses
+- **Mocked tests** — API and database tests mock BigQuery so CI runs without cloud credentials
