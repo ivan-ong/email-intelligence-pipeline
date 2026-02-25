@@ -22,6 +22,14 @@ python main.py
 python -m uvicorn api.main:app --reload
 ```
 
+## Before Committing
+
+Always run Black before committing any new or modified Python file, otherwise the CI `black --check .` step will fail:
+
+```bash
+black .
+```
+
 ## Architecture
 
 This is a three-stage email intelligence pipeline:
