@@ -30,14 +30,27 @@ class EmailExtraction(BaseModel):
 
 # --- Prompt Template ---
 PROMPT_TEMPLATE = """
-You are a data extraction assistant. Given the email below, extract the following fields and return ONLY a valid JSON object with no extra text, no markdown, no code blocks.
+You are a data extraction assistant. Given the email below, extract the following
+fields and return ONLY a valid JSON object with no extra text, no markdown, no code blocks.
 
 Fields to extract:
-- sender_name: the name of the person who sent the email (string or null)
-- sender_email: the email address of the sender (string or null)
-- intent: classify the email as exactly one of: invoice, complaint, inquiry, meeting_request, other
-- key_entities: a list of notable names, companies, amounts, dates, or order numbers mentioned
-- summary: one sentence describing what the email is about
+- sender_name:    the name of the person who sent the email (string or null).
+                  If the email is automated or a forwarded chain, use the original
+                  human sender if clearly identifiable, otherwise use the From field.
+- sender_email:   the email address of the sender (string or null).
+                  If the email is automated or a forwarded chain, use the original
+                  human sender if clearly identifiable, otherwise use the From field.
+- intent:         classify as exactly one of the following:
+                    invoice         — a vendor requesting payment or referencing a bill
+                    complaint       — expressing dissatisfaction, disputing, or demanding resolution
+                    inquiry         — asking questions or requesting information before a decision
+                    meeting_request — proposing or scheduling a call, meeting, or demo
+                    other           — none of the above
+- key_entities:   a list of people, companies, monetary amounts, order/invoice/case
+                  numbers, and specific dates mentioned. Omit generic time zones,
+                  URLs, and phone numbers.
+- summary:        one sentence stating who is writing, to whom, and what action
+                  or response they are requesting
 
 Email:
 {email_text}
