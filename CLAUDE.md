@@ -50,3 +50,14 @@ GCP_PROJECT_ID=maximal-arcade-488308-k6
 
 `GCP_PROJECT_ID` defaults to `maximal-arcade-488308-k6` if not set.
 
+## Prompt Evaluation
+
+`compare_extractions.py` compares stored BigQuery results against a fresh re-extraction using the current Gemini prompt. Use this after modifying the prompt in `extraction/extractor.py` to see what changed without overwriting stored data.
+
+Requires the API server to be running:
+```bash
+python -m uvicorn api.main:app --reload
+# in a separate terminal:
+python compare_extractions.py [--api-url http://localhost:8000] [--limit 100]
+```
+
